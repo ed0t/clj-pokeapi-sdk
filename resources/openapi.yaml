@@ -1,0 +1,445 @@
+openapi: 3.0.0
+info:
+  title: Pokemon API
+  version: 1.0.0
+paths:
+  /nature/{id}:
+    get:
+      summary: Get a pokemon nature by ID
+      operationId: GetNatureById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nature'
+        404:
+          description: NotFound
+          content:
+            text/plain:
+              schema:
+                type: string
+  /nature/{name}:
+    get:
+      summary: Get a pokemon nature by Name
+      operationId: GetNatureByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nature'
+        404:
+          description: NotFound
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /pokemon/{id}:
+    get:
+      summary: Get a pokemon by ID
+      operationId: GetPokemonById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+        404:
+          description: NotFound
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /pokemon/{name}:
+    get:
+      summary: Get a pokemon by Name
+      operationId: GetPokemonByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pokemon'
+        404:
+          description: NotFound
+          content:
+            text/plain:
+              schema:
+                type: string
+  /stat/{id}:
+    get:
+      summary: Get a pokemon stat by ID
+      operationId: GetStatByID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stat'
+        404:
+          description: NotFound
+          content:
+            text/plain:
+              schema:
+                type: string
+  /stat/{name}:
+    get:
+      summary: Get a pokemon stat by Name
+      operationId: GetStatByName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stat'
+        404:
+          description: NotFound
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    Nature:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        decreased_stat:
+          $ref: '#/components/schemas/NamedAPIResource'
+        increased_stat:
+          $ref: '#/components/schemas/NamedAPIResource'
+        likes_flavor:
+          $ref: '#/components/schemas/NamedAPIResource'
+        hates_flavor:
+          $ref: '#/components/schemas/NamedAPIResource'
+        pokeathlon_stat_changes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NatureStatChange'
+        move_battle_style_preferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoveBattleStylePreference'
+        names:
+          type: array
+          items:
+            $ref: '#/components/schemas/Name'
+
+    NatureStatChange:
+      type: object
+      properties:
+        max_change:
+          type: integer
+        pokeathlon_stat:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+
+    MoveBattleStylePreference:
+      type: object
+      properties:
+        low_hp_preference:
+          type: integer
+        high_hp_preference:
+          type: integer
+        move_battle_style:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+    Name:
+      type: object
+      properties:
+        name:
+          type: string
+        language:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+    APIResource:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+
+    NamedAPIResource:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+          format: uri
+
+    Pokemon:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        base_experience:
+          type: integer
+        height:
+          type: integer
+        is_default:
+          type: boolean
+        order:
+          type: integer
+        weight:
+          type: integer
+        abilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonAbility'
+        forms:
+          type: array
+          items:
+            $ref: '#/components/schemas/NamedAPIResource'
+        game_indices:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionGameIndex'
+        location_area_encounters:
+          type: string
+        held_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonHeldItem'
+        moves:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonMove'
+        species:
+          $ref: '#/components/schemas/NamedAPIResource'
+        sprites:
+          $ref: '#/components/schemas/PokemonSprites'
+        stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonStat'
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonType'
+        past_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonTypePast'
+
+    PokemonAbility:
+      type: object
+      properties:
+        is_hidden:
+          type: boolean
+        slot:
+          type: integer
+        ability:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+
+    VersionGameIndex:
+      type: object
+      properties:
+        game_index:
+          type: integer
+        version:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+
+    PokemonHeldItem:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/NamedAPIResource'
+        version_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonHeldItemVersion'
+
+    PokemonMove:
+      type: object
+      properties:
+        move:
+          $ref: '#/components/schemas/NamedAPIResource'
+        version_group_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonMoveVersion'
+
+    PokemonSprites:
+      type: object
+      properties:
+        back_default:
+          type: string
+          format: uri
+        back_female:
+          type: string
+          format: uri
+        back_shiny:
+          type: string
+          format: uri
+        front_default:
+          type: string
+          format: uri
+        front_female:
+          type: string
+          format: uri
+        front_shiny:
+          type: string
+          format: uri
+
+
+    PokemonStat:
+      type: object
+      properties:
+        base_stat:
+          type: integer
+        effort:
+          type: integer
+        stat:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+    PokemonType:
+      type: object
+      properties:
+        slot:
+          type: integer
+        type:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+    PokemonTypePast:
+      type: object
+      properties:
+        generation:
+          $ref: '#/components/schemas/NamedAPIResource'
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/PokemonType'
+
+
+
+    PokemonHeldItemVersion:
+      type: object
+      properties:
+        rarity:
+          type: integer
+        version:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+    PokemonMoveVersion:
+      type: object
+      properties:
+        level_learned_at:
+          type: integer
+        version_group:
+          $ref: '#/components/schemas/NamedAPIResource'
+        move_learn_method:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+    Stat:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        game_index:
+          type: integer
+        is_battle_only:
+          type: boolean
+        affecting_moves:
+          $ref: '#/components/schemas/MoveStatAffectSets'
+        affecting_natures:
+          $ref: '#/components/schemas/NatureStatAffectSets'
+        characteristics:
+          type: array
+          items:
+            $ref: '#/components/schemas/APIResource'
+        move_damage_class:
+          $ref: '#/components/schemas/NamedAPIResource'
+        names:
+          type: array
+          items:
+            $ref: '#/components/schemas/Name'
+
+    MoveStatAffectSets:
+      type: object
+      properties:
+        increase:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoveStatAffect'
+        decrease:
+          type: array
+          items:
+            $ref: '#/components/schemas/MoveStatAffect'
+
+    MoveStatAffect:
+      type: object
+      properties:
+        change:
+          type: integer
+        move:
+          $ref: '#/components/schemas/NamedAPIResource'
+
+    NatureStatAffectSets:
+      type: object
+      properties:
+        increase:
+          type: array
+          items:
+            $ref: '#/components/schemas/NamedAPIResource'
+        decrease:
+          type: array
+          items:
+            $ref: '#/components/schemas/NamedAPIResource'
+
+
